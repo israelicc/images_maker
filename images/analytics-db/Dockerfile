@@ -1,6 +1,9 @@
 FROM ghcr.io/astral-sh/uv:0.11.2-python3.12-trixie
 
 USER root
+ENV UV_SYSTEM_PYTHON=1
+ENV PORT=2718
+ENV MARIMO_HOST=0.0.0.0
 
 # Install system dependencies (as root)
 RUN apt-get update && apt-get install -y \
@@ -22,11 +25,12 @@ RUN chown 1000:1000 /app /usr/local/lib/python3.12/site-packages /usr/local/bin
 #copy to /, not /app
 COPY --chown=1000:1000 requirements.in /requirements.in
 
-ENV UV_SYSTEM_PYTHON=1
-
 RUN uv pip compile /requirements.in -o /requirements.txt && \
     uv pip install --no-cache -r /requirements.txt
 
 WORKDIR /app
 
-CMD ["python"]
+USER 1000:1000
+
+# Default command
+CMD ["sh", "-c", "marimo edit --no-token --no-skew-protection --port $PORT --host $MARIMO_HOST"]
