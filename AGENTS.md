@@ -6,11 +6,11 @@ This repository contains Docker images for specialized purposes, built automatic
 
 | Image | Purpose | Tags |
 |-------|---------|------|
-| `analytics` | Data analysis, Pandas, NumPy, Jupyter | `latest`, `v*.*.*` |
+| `ai-agents` | CrewAI, OpenAI, LiteLLM, FastAPI, ChromaDB, FAISS | `latest`, `v*.*.*` |
 | `webscraping` | Scrapy, BeautifulSoup, Selenium, Playwright | `latest`, `v*.*.*` |
 | `machine-learning` | PyTorch, TensorFlow, scikit-learn, CUDA support | `latest`, `v*.*.*` |
 | `nlp` | spaCy, NLTK, transformers, LLM tools | `latest`, `v*.*.*` |
-| `data-engineering` | Airflow, dbt, SQL tools, Kafka clients | `latest`, `v*.*.*` |
+| `analytics-engineering` | Analytics + dbt, Airflow, PostgreSQL, MongoDB | `latest`, `v*.*.*` |
 
 ## Usage
 
