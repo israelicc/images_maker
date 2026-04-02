@@ -1,6 +1,6 @@
 FROM ghcr.io/astral-sh/uv:0.11.2-python3.12-trixie
 
-WORKDIR /workspace
+WORKDIR /app
 
 # Install system dependencies for browsers
 RUN apt-get update && apt-get install -y \
