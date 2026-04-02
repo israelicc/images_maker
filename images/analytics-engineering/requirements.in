@@ -6,3 +6,5 @@ psycopg[binary]>=3.3.3
 sqlalchemy>=2.0.0
 motor>=3.0.0
 redis>=5.0.0
+dbt-core>=1.7.0
+apache-airflow>=2.7.0
