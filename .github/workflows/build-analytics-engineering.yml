@@ -1,24 +1,24 @@
-name: Build and Push Data Engineering Image
+name: Build and Push Analytics & Data Engineering Image
 
 on:
   push:
     branches: [main]
     paths:
-      - 'images/data-engineering/**'
-      - '.github/workflows/build-data-engineering.yml'
+      - 'images/analytics-engineering/**'
+      - '.github/workflows/build-analytics-engineering.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'images/data-engineering/**'
-      - '.github/workflows/build-data-engineering.yml'
+      - 'images/analytics-engineering/**'
+      - '.github/workflows/build-analytics-engineering.yml'
   release:
     types: [published]
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 0'  # Weekly on Sunday
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/data-engineering
+  IMAGE_NAME: ${{ github.repository }}/analytics-engineering
 
 jobs:
   build:
@@ -56,16 +56,17 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./images/data-engineering
+          context: ./images/analytics-engineering
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          outputs: type=docker,dest=/tmp/analytics-image.tar
 
       - name: Extract package versions
         run: |
-          echo "## 🔄 Data Engineering Image Package Versions" >> $GITHUB_STEP_SUMMARY
+          echo "## � Analytics & Data Engineering Image Package Versions" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -75,6 +76,6 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Python Packages" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat images/data-engineering/requirements.in >> $GITHUB_STEP_SUMMARY
+          cat images/analytics-engineering/requirements.in >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
         shell: bash
