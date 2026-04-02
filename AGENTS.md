@@ -10,7 +10,7 @@ This repository contains Docker images for specialized purposes, built automatic
 | `webscraping` | Scrapy, BeautifulSoup, Selenium, Playwright | `latest`, `v*.*.*` |
 | `machine-learning` | PyTorch, TensorFlow, scikit-learn, CUDA support | `latest`, `v*.*.*` |
 | `nlp` | spaCy, NLTK, transformers, LLM tools | `latest`, `v*.*.*` |
-| `analytics-engineering` | Analytics + dbt, Airflow, PostgreSQL, MongoDB | `latest`, `v*.*.*` |
+| `analytics-db` | Analytics with Polars, PostgreSQL, MongoDB | `latest`, `v*.*.*` |
 
 ## Usage
 

@@ -1,16 +1,16 @@
-name: Build and Push Analytics & Data Engineering Image
+name: Build and Push Analytics DB Image
 
 on:
   push:
     branches: [main]
     paths:
-      - 'images/analytics-engineering/**'
-      - '.github/workflows/build-analytics-engineering.yml'
+      - 'images/analytics-db/**'
+      - '.github/workflows/build-analytics-db.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'images/analytics-engineering/**'
-      - '.github/workflows/build-analytics-engineering.yml'
+      - 'images/analytics-db/**'
+      - '.github/workflows/build-analytics-db.yml'
   release:
     types: [published]
   schedule:
@@ -18,7 +18,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/analytics-engineering
+  IMAGE_NAME: ${{ github.repository }}/analytics-db
 
 jobs:
   build:
@@ -59,7 +59,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./images/analytics-engineering
+          context: ./images/analytics-db
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -69,7 +69,7 @@ jobs:
 
       - name: Extract package versions
         run: |
-          echo "## 📊 Analytics & Data Engineering Image Package Versions" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Analytics DB Image Package Versions" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -79,7 +79,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Python Packages" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat images/analytics-engineering/requirements.in >> $GITHUB_STEP_SUMMARY
+          cat images/analytics-db/requirements.in >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Detect package changes
@@ -87,10 +87,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Package Changes" >> $GITHUB_STEP_SUMMARY
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            PREV_FILE=$(git show HEAD^:images/analytics-engineering/requirements.in 2>/dev/null || echo "")
+            PREV_FILE=$(git show HEAD^:images/analytics-db/requirements.in 2>/dev/null || echo "")
             if [ -n "$PREV_FILE" ]; then
               echo '```diff' >> $GITHUB_STEP_SUMMARY
-              diff --unified=3 <(echo "$PREV_FILE") images/analytics-engineering/requirements.in >> $GITHUB_STEP_SUMMARY || true
+              diff --unified=3 <(echo "$PREV_FILE") images/analytics-db/requirements.in >> $GITHUB_STEP_SUMMARY || true
               echo '```' >> $GITHUB_STEP_SUMMARY
             else
               echo "_First commit - no previous version to compare_" >> $GITHUB_STEP_SUMMARY
