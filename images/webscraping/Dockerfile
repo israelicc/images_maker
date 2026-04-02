@@ -43,9 +43,12 @@ RUN apt-get update && apt-get install -y \
 # Switch to non-root user
 USER 1000:1000
 
+# Create virtual environment
+RUN uv venv .venv
+
 # Copy loose requirements and compile to lock file
-COPY requirements.in .
-RUN uv pip compile requirements.in -o requirements.txt --system && uv pip install --no-cache -r requirements.txt --system
+COPY --chown=1000:1000 requirements.in .
+RUN uv pip compile requirements.in -o requirements.txt && uv pip install --no-cache -r requirements.txt
 
 # Install Playwright browsers
 RUN playwright install chromium
