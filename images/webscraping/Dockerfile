@@ -1,8 +1,15 @@
 FROM ghcr.io/astral-sh/uv:0.11.2-python3.12-trixie
 
+# Create non-root user and group
+RUN groupadd -g 1000 appgroup && \
+    useradd -u 1000 -g appgroup -m -s /bin/bash appuser
+
+# Create app directory and set ownership
+RUN mkdir -p /app && chown -R 1000:1000 /app
+
 WORKDIR /app
 
-# Install system dependencies for browsers
+# Install system dependencies for browsers (as root)
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -13,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     firefox-esr \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Playwright dependencies
+# Install Playwright dependencies (as root)
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libnss3 \
@@ -32,6 +39,9 @@ RUN apt-get update && apt-get install -y \
     libcairo2 \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
+
+# Switch to non-root user
+USER 1000:1000
 
 # Copy loose requirements and compile to lock file
 COPY requirements.in .
