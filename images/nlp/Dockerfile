@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy loose requirements and compile to lock file
 COPY requirements.in .
-RUN uv pip compile requirements.in -o requirements.txt && uv pip install --no-cache -r requirements.txt
+RUN uv pip compile requirements.in -o requirements.txt --system && uv pip install --no-cache -r requirements.txt --system
 
 # Download spaCy models
 RUN python -m spacy download en_core_web_sm
