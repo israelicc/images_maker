@@ -8,3 +8,4 @@ sqlalchemy>=2.0.0
 motor>=3.0.0
 redis>=5.0.0
 google-genai>=1.70.0
+pydantic-ai>=1.76.0
