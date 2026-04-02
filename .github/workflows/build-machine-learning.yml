@@ -78,7 +78,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Python Packages" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat images/machine-learning/requirements.in >> $GITHUB_STEP_SUMMARY
+          cat images/machine-learning/requirements_ml.in >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Detect package changes
@@ -86,10 +86,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Package Changes" >> $GITHUB_STEP_SUMMARY
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            PREV_FILE=$(git show HEAD^:images/machine-learning/requirements.in 2>/dev/null || echo "")
+            PREV_FILE=$(git show HEAD^:images/machine-learning/requirements_ml.in 2>/dev/null || echo "")
             if [ -n "$PREV_FILE" ]; then
               echo '```diff' >> $GITHUB_STEP_SUMMARY
-              diff --unified=3 <(echo "$PREV_FILE") images/machine-learning/requirements.in >> $GITHUB_STEP_SUMMARY || true
+              diff --unified=3 <(echo "$PREV_FILE") images/machine-learning/requirements_ml.in >> $GITHUB_STEP_SUMMARY || true
               echo '```' >> $GITHUB_STEP_SUMMARY
             else
               echo "_First commit - no previous version to compare_" >> $GITHUB_STEP_SUMMARY
