@@ -51,7 +51,7 @@ COPY --chown=1000:1000 requirements.in .
 RUN uv pip compile requirements.in -o requirements.txt && uv pip install --no-cache -r requirements.txt
 
 # Install Playwright browsers
-RUN playwright install chromium
+RUN /app/.venv/bin/playwright install chromium
 
 # Default command
 CMD ["python"]
