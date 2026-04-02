@@ -25,8 +25,8 @@ COPY --chown=1000:1000 requirements.in .
 RUN uv pip compile requirements.in -o requirements.txt && uv pip install --no-cache -r requirements.txt
 
 # Download spaCy models
-RUN python -m spacy download en_core_web_sm
-RUN python -m spacy download en_core_web_md
+RUN /app/.venv/bin/python -m spacy download en_core_web_sm
+RUN /app/.venv/bin/python -m spacy download en_core_web_md
 
 # Default command
 CMD ["python"]
