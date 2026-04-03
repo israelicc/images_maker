@@ -2,4 +2,3 @@
     torchvision>=0.16.0
     torchaudio>=2.1.0
     mlflow>=2.8.0
-    autogluon>=1.0.0
