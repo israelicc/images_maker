@@ -1,2 +1,4 @@
 load_from:
-  - python_module:
+  - python_file:
+      relative_path: definitions.py
+      working_directory: /opt

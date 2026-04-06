@@ -10,6 +10,7 @@ RUN uv pip compile /requirements.in -o /requirements.txt && \
 # Copy start script and workspace config
 COPY --chown=1000:1000 start.sh /start.sh
 COPY --chown=1000:1000 workspace.yaml /opt/workspace.yaml
+COPY --chown=1000:1000 definitions.py /opt/definitions.py
 
 # Make start script executable
 RUN chmod +x /start.sh
