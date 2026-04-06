@@ -1,17 +1,18 @@
 FROM ghcr.io/israelicc/images_maker/analytics-db:latest
 
-# Install system dependencies for browsers (as root)
+USER root
+
+# Install system dependencies for browsers
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     unzip \
     curl \
     chromium \
-    chromium-driver \
     firefox-esr \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Playwright dependencies (as root)
+# Install Playwright dependencies
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libnss3 \
@@ -31,30 +32,17 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user and set up /app (as root)
-RUN groupadd -g 1000 appgroup && \
-    useradd -u 1000 -g appgroup -m -s /bin/bash appuser && \
-    mkdir -p /app && \
-    chown -R 1000:1000 /app
-
 WORKDIR /app
 
-# Switch to non-root user for all Python operations
-USER 1000:1000
+# Copy and install dependencies
+COPY --chown=1000:1000 requirements.in /requirements.in
+RUN uv pip compile /requirements.in -o /requirements.txt && \
+    uv pip install --no-cache -r /requirements.txt
 
-# Create venv as user 1000 (owned by user 1000)
-RUN uv venv /app/venv
-
-# Set PATH so all commands use venv by default
-ENV PATH="/app/venv/bin:$PATH"
-
-# Copy and install dependencies (as user 1000, inside venv)
-COPY --chown=1000:1000 requirements.in .
-RUN uv pip compile requirements.in -o requirements.txt && \
-    uv pip install --no-cache -r requirements.txt
-
-# Install Playwright browsers (venv)
+# Install Playwright browsers
 RUN playwright install chromium
+
+USER 1000:1000
 
 # Default command
 CMD ["python"]
