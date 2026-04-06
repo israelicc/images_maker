@@ -11,6 +11,7 @@ This repository contains Docker images for specialized purposes, built automatic
 | `machine-learning` | PyTorch, TensorFlow, scikit-learn, CUDA support | `latest`, `v*.*.*` |
 | `nlp` | spaCy, NLTK, transformers, LLM tools | `latest`, `v*.*.*` |
 | `analytics-db` | Analytics with Polars, PostgreSQL, MongoDB | `latest`, `v*.*.*` |
+| `analytics-db-orchestration` | Dagster orchestration for data workflows | `latest`, `v*.*.*` |
 
 ## Usage
 
@@ -29,16 +30,18 @@ docker run -v $(pwd):/workspace ghcr.io/<org>/analytics:latest
 ```
 .
 ├── images/
-│   ├── analytics/
+│   ├── ai-agents/
 │   │   ├── Dockerfile
-│   │   └── requirements.txt
+│   │   └── requirements.in
 │   ├── webscraping/
 │   ├── machine-learning/
 │   ├── nlp/
-│   └── data-engineering/
+│   ├── analytics-db/
+│   └── analytics-db-orchestration/
 ├── .github/
 │   └── workflows/
 │       ├── build-analytics.yml
+│       ├── build-analytics-db-orchestration.yml
 │       ├── build-webscraping.yml
 │       └── ...
 └── agents.md (this file)
@@ -62,6 +65,6 @@ docker build -t analytics:local .
 ## Contributing
 
 1. Add new purpose folder under `images/`
-2. Include `Dockerfile` and `requirements.txt`
+2. Include `Dockerfile` and `requirements.in`
 3. Add corresponding workflow under `.github/workflows/`
 4. Update this `agents.md` with image details
