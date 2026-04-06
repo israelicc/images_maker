@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:0.11.2-python3.12-trixie
+FROM ghcr.io/israelicc/images_maker/analytics-db:latest
 
 # Install system dependencies for browsers (as root)
 RUN apt-get update && apt-get install -y \
