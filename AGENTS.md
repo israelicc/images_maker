@@ -12,6 +12,7 @@ This repository contains Docker images for specialized purposes, built automatic
 | `nlp` | spaCy, NLTK, transformers, LLM tools | `latest`, `v*.*.*` |
 | `analytics-db` | Analytics with Polars, PostgreSQL, MongoDB | `latest`, `v*.*.*` |
 | `analytics-db-orchestration` | Dagster orchestration for data workflows | `latest`, `v*.*.*` |
+| `analytics-db-orchestration-opencode` | Dagster orchestration with OpenCode integration | `latest`, `v*.*.*` |
 
 ## Usage
 
@@ -37,11 +38,13 @@ docker run -v $(pwd):/workspace ghcr.io/<org>/analytics:latest
 │   ├── machine-learning/
 │   ├── nlp/
 │   ├── analytics-db/
-│   └── analytics-db-orchestration/
+│   ├── analytics-db-orchestration/
+│   └── analytics-db-orchestration-opencode/
 ├── .github/
 │   └── workflows/
 │       ├── build-analytics.yml
 │       ├── build-analytics-db-orchestration.yml
+│       ├── build-analytics-db-orchestration-opencode.yml
 │       ├── build-webscraping.yml
 │       └── ...
 └── agents.md (this file)
