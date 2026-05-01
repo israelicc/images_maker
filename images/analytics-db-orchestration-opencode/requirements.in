@@ -1,4 +1,0 @@
-dagster-webserver==1.12.21
-dagster==1.12.21
-dagster-postgres
-faker

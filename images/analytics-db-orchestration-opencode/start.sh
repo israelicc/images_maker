@@ -1,5 +1,5 @@
 #!/bin/bash
-# this is to be copied to dockerfile to start webserver and daemon inside the same container.
+# this is to be copied to dockerfile to start webserver and daemon inside the same container with OpenCode.
 set -e
 
 echo "Starting OpenCode..."
