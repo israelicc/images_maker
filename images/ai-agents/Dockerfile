@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
 
 # Create non-root user and set up /app (as root)
 RUN groupadd -g 1000 appgroup && \
-    useradd -u 1000 -g appgroup -m -s /bin/bash appuser && \
+    useradd -u 1000 -g appgroup -m -s /bin/bash user && \
     mkdir -p /app && \
     chown -R 1000:1000 /app
 

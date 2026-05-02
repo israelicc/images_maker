@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 
 # Create non-root user and set up /app (as root)
 RUN groupadd -g 1000 appgroup && \
-    useradd -u 1000 -g appgroup -m -s /bin/bash appuser && \
+    useradd -u 1000 -g appgroup -m -s /bin/bash user && \
     mkdir -p /app
 
 RUN chown 1000:1000 /app /usr/local/lib/python3.12/site-packages /usr/local/bin
