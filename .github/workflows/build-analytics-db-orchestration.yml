@@ -14,7 +14,7 @@ on:
   release:
     types: [published]
   schedule:
-    - cron: '0 2 1 * *'  # Monthly on 1st
+    - cron: '0 1 1 * *'  # Monthly on 1st
 
 env:
   REGISTRY: ghcr.io
