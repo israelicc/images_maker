@@ -1,5 +1,4 @@
 name: Build and Push Analytics DB Orchestration OpenCode Image
-# Force rebuild to get updated base image with user fix
 
 on:
   push:
@@ -15,7 +14,7 @@ on:
   release:
     types: [published]
   schedule:
-    - cron: '0 3 1 * *'  # Monthly on 1st
+    - cron: '0 2 1 * *'  # Monthly on 1st
 
 env:
   REGISTRY: ghcr.io
