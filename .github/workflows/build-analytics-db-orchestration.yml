@@ -1,5 +1,4 @@
 name: Build and Push Analytics DB Orchestration Image
-# Force rebuild to get updated base image with user fix
 
 on:
   push:
