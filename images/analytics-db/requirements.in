@@ -9,3 +9,4 @@ motor>=3.0.0
 redis>=5.0.0
 google-genai>=1.70.0
 pydantic-ai>=1.76.0
+fastexcel>=0.12.0

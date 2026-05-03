@@ -1,5 +1,5 @@
 name: Build and Push Analytics DB Image
-
+# Force rebuild to get updated base image with user fix
 on:
   push:
     branches: [main]
