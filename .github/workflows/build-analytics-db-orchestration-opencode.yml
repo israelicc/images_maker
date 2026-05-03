@@ -1,5 +1,5 @@
 name: Build and Push Analytics DB Orchestration OpenCode Image
-
+# force rebuild
 on:
   push:
     branches: [main]
