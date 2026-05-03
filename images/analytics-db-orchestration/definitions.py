@@ -1,11 +1,11 @@
 """
-Enhanced Dagster Definitions Loader
+Enhanced Dagster Definitions Loader - main.py Entrypoint
 
 Supports both:
 1. Single-file workflows (*.py files directly exporting assets/jobs/schedules)
-2. Multi-folder projects (directories containing __init__.py with assets/jobs/schedules)
+2. Multi-folder projects (directories containing main.py as entrypoint)
 
-Usage: Replace /opt/definitions.py with this file, or use as reference.
+Usage: Replace /opt/definitions.py with this file.
 """
 
 from typing import Any
@@ -58,7 +58,8 @@ def discover_and_load_definitions_attr(module: Any) -> None:
 
 def load_directory_project(project_dir: str, parent_dir: str) -> None:
     """
-    Load a multi-folder project (directory containing __init__.py)."
+    Load a multi-folder project (directory containing main.py).
+    
     Args:
         project_dir: Full path to the project directory
         parent_dir: The parent directory containing dagster_jobs
@@ -68,25 +69,41 @@ def load_directory_project(project_dir: str, parent_dir: str) -> None:
     if module_name in loaded_modules:
         return
 
+    main_path = os.path.join(project_dir, "main.py")
+    if not os.path.exists(main_path):
+        print(f"Warning: No main.py found in '{project_dir}', skipping")
+        return
+
     current_sys_path = sys.path.copy()
     try:
+        # Add project_dir to sys.path so imports like "from project.sources" work
+        if project_dir not in sys.path:
+            sys.path.insert(0, project_dir)
         if parent_dir not in sys.path:
             sys.path.insert(0, parent_dir)
 
-        try:
-            module = __import__(module_name)
-            loaded_modules.add(module_name)
-            discover_and_load_definitions_attr(module)
-        except Exception as e:
-            print(f"Error loading directory project '{module_name}': {e}")
+        # Create __init__.py if it doesn't exist (makes folder a package)
+        init_path = os.path.join(project_dir, "__init__.py")
+        if not os.path.exists(init_path):
+            with open(init_path, "w") as f:
+                f.write("# Auto-generated entrypoint\nfrom .main import *\n")
+            print(f"Auto-created __init__.py for {module_name}")
+
+        # Now import works because __init__.py exists
+        module = __import__(module_name)
+        loaded_modules.add(module_name)
+        discover_and_load_definitions_attr(module)
+    except Exception as e:
+        print(f"Error loading directory project '{module_name}': {e}")
     finally:
         sys.path[:] = current_sys_path
 
 
 def discover_directory_projects(dagster_jobs_dir: str) -> None:
     """
-    Discover all subdirectories that contain an __init__.py file and load them.
+    Discover all subdirectories that contain a main.py file and load them.
     
+    The main.py file is the explicit entrypoint for multi-file projects.
     Skips directories starting with underscore.
     """
     if not os.path.exists(dagster_jobs_dir):
@@ -94,8 +111,8 @@ def discover_directory_projects(dagster_jobs_dir: str) -> None:
     
     for entry in os.scandir(dagster_jobs_dir):
         if entry.is_dir() and not entry.name.startswith("_"):
-            init_path = os.path.join(entry.path, "__init__.py")
-            if os.path.exists(init_path):
+            main_path = os.path.join(entry.path, "main.py")
+            if os.path.exists(main_path):
                 load_directory_project(entry.path, dagster_jobs_dir)
 
 
