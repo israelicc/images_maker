@@ -1,6 +1,7 @@
 services:
   code-server:
-    image: ghcr.io/linuxserver/code-server:4.123.0
+    build:
+      context: .
     container_name: code-server
     restart: unless-stopped
     environment:
@@ -22,4 +23,4 @@ services:
 
 volumes:
   code_server_data:
-  workspace_data:
+  workspace_data: 
