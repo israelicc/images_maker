@@ -1,0 +1,21 @@
+services:
+  code-server:
+    image: ghcr.io/linuxserver/code-server:4.123.0
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      PASSWORD: your_password
+      TZ: America/Fortaleza
+    volumes:
+      - ./code-server:/config
+      - ./workspace:/workspace
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      TUNNEL_TOKEN: SEU_TUNNEL_TOKEN
+    depends_on:
+      - code-server
