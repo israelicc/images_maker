@@ -6,9 +6,6 @@ services:
     environment:
       PASSWORD=${PASSWORD}
       TZ=America/Fortaleza
-    volumes:
-      - ./code-server:/config
-      - ./workspace:/workspace
 
   cloudflared:
     image: cloudflare/cloudflared:latest
