@@ -4,8 +4,8 @@ services:
     container_name: code-server
     restart: unless-stopped
     environment:
-      PASSWORD: your_password
-      TZ: America/Fortaleza
+      PASSWORD=${PASSWORD}
+      TZ=America/Fortaleza
     volumes:
       - ./code-server:/config
       - ./workspace:/workspace
@@ -14,8 +14,8 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: unless-stopped
-    command: tunnel run
+    command: tunnel --no-autoupdate run
     environment:
-      TUNNEL_TOKEN: SEU_TUNNEL_TOKEN
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     depends_on:
       - code-server
