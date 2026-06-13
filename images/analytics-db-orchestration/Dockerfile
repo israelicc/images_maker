@@ -14,7 +14,10 @@ COPY --chown=1000:1000 definitions.py /opt/definitions.py
 
 # Create /opt directory if it doesn't exist and set permissions
 RUN mkdir -p /app/dagster_jobs /app/.dagster_home && \
-    chown -R 1000:1000 /app/dagster_jobs /app/.dagster_home
+    chown -R 1000:1000 /app/dagster_jobs /app/.dagster_home && \
+    rm -f /app/.dagster_home/schedules/schedules.db \
+          /app/.dagster_home/history/runs.db \
+          /app/.dagster_home/history/runs/index.db
 
 COPY --chown=1000:1000 dagster.yaml /app/.dagster_home/dagster.yaml
 
