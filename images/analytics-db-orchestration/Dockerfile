@@ -16,6 +16,8 @@ COPY --chown=1000:1000 definitions.py /opt/definitions.py
 RUN mkdir -p /app/dagster_jobs /app/.dagster_home && \
     chown -R 1000:1000 /app/dagster_jobs /app/.dagster_home
 
+COPY --chown=1000:1000 dagster.yaml /app/.dagster_home/dagster.yaml
+
 # Make start script executable
 RUN chmod +x /start.sh
 
